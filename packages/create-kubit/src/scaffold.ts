@@ -16,4 +16,5 @@ export const scaffold = async (path: string) => {
   const dir = await tmp();
   await download('aniftyco/kubit', dir);
   await fs.rename(`${dir}/templates/web`, path);
+  await fs.copyFile(`${dir}/.env.example`, `${path}/.env`);
 };
