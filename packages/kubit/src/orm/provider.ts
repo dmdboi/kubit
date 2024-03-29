@@ -17,7 +17,7 @@ export default class ORMServiceProvider implements ServiceProvider {
       const { Adapter } = require('./Adapter');
       const { scope } = require('./Helpers/scope');
       const decorators = require('./Decorators');
-      const { Slugify } = require('./Decorators/Slugify');
+      const { Slugify } = require('./Decorators/slugify');
       const { SlugifyManager } = require('./Slugify/SlugifyManager');
       const mixins = require('./Mixins');
       const { BaseModel } = require('./BaseModel');
