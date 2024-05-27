@@ -83,6 +83,11 @@ export class Request extends Macroable {
   public parsedUrl: UrlWithStringQuery = parse(this.request.url!, false);
 
   /**
+   * Device type
+   */
+  public deviceType: string = '';
+
+  /**
    * The ctx will be set by the context itself. It creates a circular
    * reference
    */
@@ -945,5 +950,13 @@ export class Request extends Macroable {
       ip: this.ip(),
       subdomains: this.ctx!.subdomains,
     };
+  }
+
+  /**
+   * Returns the request device type
+   */
+  public device(): string {
+    this.deviceType = this.headers()['user-agent'] || '';
+    return this.deviceType
   }
 }
