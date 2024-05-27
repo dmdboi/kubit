@@ -4,6 +4,7 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 
 import { css } from './Styles';
+import { copyIcon } from './Icon';
 
 /**
  * Markdown renderer for opening the instructions md file inside the
@@ -18,7 +19,10 @@ export class MarkdownRenderer {
   /**
    * Generates HTML with the markdown processed code
    */
-  private generateHtml(contents: string) {
+  public generateHtml(contents: string) {
+    console.log(`Rendering markdown in browser...`);
+    console.log(contents);
+
     return `<html>
       <head>
         <style type="text/css">${css}</style>
@@ -30,6 +34,39 @@ export class MarkdownRenderer {
           </h1>
           ${contents}
         </article>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const preBlocks = document.querySelectorAll('pre');
+  
+          preBlocks.forEach((preBlock) => {
+            // Create a container to hold the pre block and the button
+            const container = document.createElement('div');
+            container.className = 'pre-container';
+  
+            // Create the copy button
+            const copyButton = document.createElement('button');
+            copyButton.innerHTML = ${copyIcon};
+            copyButton.className = 'copy-button';
+  
+            // Add event listener to copy the content of the pre block
+            copyButton.addEventListener('click', () => {
+              const tempElement = document.createElement('textarea');
+              tempElement.value = preBlock.innerText;
+              document.body.appendChild(tempElement);
+              tempElement.select();
+              document.execCommand('copy');
+              document.body.removeChild(tempElement);
+              alert('Content copied to clipboard');
+            });
+  
+            // Insert the pre block and the button into the container
+            preBlock.parentNode.insertBefore(container, preBlock);
+            container.appendChild(preBlock);
+            container.appendChild(copyButton);
+          });
+        });
+      </script>
       </body>
     </html>`;
   }
